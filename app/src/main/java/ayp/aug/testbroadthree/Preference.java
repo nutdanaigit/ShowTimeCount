@@ -23,12 +23,12 @@ public class Preference {
     private static final String PREF_IS_ON_SATURDAY= "PREF_IS_ON_SATURDAY";
     private static final String PREF_IS_ON_SUNDAY = "PREF_IS_ON_SUNDAY";
 
-    public static int getTimeIn(Context context){
-        return PreferenceManager.getDefaultSharedPreferences(context).getInt(PREF_GET_TIME_IN,0);
+    public static String getTimeIn(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_GET_TIME_IN,null);
     }
 
-    public static void setTimeIn(Context context,int timeIn){
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putInt(PREF_GET_TIME_IN,timeIn).apply();
+    public static void setTimeIn(Context context,String timeIn){
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_GET_TIME_IN,timeIn).apply();
     }
 
     public static String getAlarmOn(Context context){

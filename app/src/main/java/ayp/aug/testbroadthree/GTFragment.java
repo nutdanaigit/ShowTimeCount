@@ -146,15 +146,15 @@ public class GTFragment extends GTVisibleFragment implements View.OnClickListene
                 new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                        String setMinute = (i1 == 0) ? "00" : (i1 < 10) ? "0" + String.valueOf(i1) : String.valueOf(i1);
                         String setHour = (i < 10) ? "0" + String.valueOf(i) : String.valueOf(i);
-                        Preference.setTimeIn(getActivity(), timePicker.getId());
-                        Log.d(TAG, "onTimeSet: " + timePicker.getId());
-//                            String ap = (calendarTimeIn.getTime().after())?" AM":" PM";
-                        String setTimeIn = setHour + ":" + setMinute;
+                        String setMinute = (i1 == 0) ? "00" : (i1 < 10) ? "0" + String.valueOf(i1) : String.valueOf(i1);
+                        String setSecond = "00";
+                        String setTimeIn = setHour + ":" + setMinute+":"+setSecond;
+                        Preference.setTimeIn(getActivity(),setTimeIn);
+                        Log.d(TAG, "onTimeSet: "+setTimeIn);
                         mTxtSetTimeIn.setText(setTimeIn);
                     }
-                }, hour, minute, false).show();
+                }, hour, minute, true).show();
                 break;
         }
     }
@@ -185,13 +185,11 @@ public class GTFragment extends GTVisibleFragment implements View.OnClickListene
         getTime();
         Log.d(TAG, "Time2 : " + hourEdit + ":" + minuteEdit + ":" + secondEdit);
         Preference.setDate(getActivity(), calendar.getTime().getTime());
-        Preference.setAlarmOn(getActivity(), getFormattedDate());
+        Preference.setAlarmOn(getActivity(), getFormattedDate(calendar.getTime()));
     }
 
-    public String getFormattedDate() {
-        SimpleDateFormat df = new SimpleDateFormat(" hh:mm:ss a"); //called without pattern
-        Log.d(TAG, "GetFormat" + calendar.getTime().toString());
-        return df.format(calendar.getTime());
+    public String getFormattedDate(Date date) {
+        return new SimpleDateFormat(" hh:mm:ss a").format(date);
     }
 
     public void getTime() {
@@ -274,15 +272,13 @@ public class GTFragment extends GTVisibleFragment implements View.OnClickListene
 
         mGtLab.setCheckBox(compoundButton);
         Log.d(TAG, "CheckBox: " + compoundButton.getText().toString() + " status: " + compoundButton.isChecked() + " id: " + compoundButton.length());
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE");
-        String dayOfWeek = dateFormat.format(date);
+        String dayOfWeek = new SimpleDateFormat("EEEE").format(new Date());
         if (dayOfWeek.equals(compoundButton.getText().toString())) {
             if (mGtLab.getCheckBox(compoundButton.getId())) {
                 Log.d(TAG, "onCheckedChanged: " + Calendar.getInstance().getTime() + " : " + Preference.getTimeIn(getActivity()));
-//                if() {
+                if(Preference.getTimeIn(getActivity()).equals(getFormattedDate(Calendar.getInstance().getTime()))) {
                     getDoing();
-//                }
+                }
             }
 
         }

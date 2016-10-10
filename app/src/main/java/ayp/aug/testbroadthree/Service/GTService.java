@@ -47,9 +47,14 @@ public class GTService extends IntentService {
             Log.d(TAG, "Time " + Preference.getDate(context));
             am.set(AlarmManager.RTC_WAKEUP, Preference.getDate(context), pi);
             Log.d(TAG, "Run by Alarm Manager");
+        }else{
+            am.cancel(pi);
+            pi.cancel();
         }
 
     }
+
+
 
     @Override
     protected void onHandleIntent(Intent intent) {

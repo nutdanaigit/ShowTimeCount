@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import ayp.aug.testbroadthree.Modern.GTLab;
 import ayp.aug.testbroadthree.Preference;
 import ayp.aug.testbroadthree.Service.GTService;
 
@@ -23,10 +24,15 @@ public class GTStartBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG,"Receiver booties call");
-//        if(dateFormat.format(new Date()).equals())
+
+
+
         if(Calendar.getInstance().getTime().getTime() < Preference.getDate(context)) {
             Log.d(TAG,"It has time before time up");
             GTService.setServiceAlarm(context,isOn);
+        }else{
+            GTService.setServiceAlarm(context,!isOn);
         }
+
     }
 }
